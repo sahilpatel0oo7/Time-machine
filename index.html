@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Time Since Birth Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+
+    input {
+      padding: 5px;
+      margin: 10px;
+    }
+
+    button {
+      padding: 8px;
+      font-size: 16px;
+    }
+
+    p {
+      font-size: 18px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Time Since Birth Calculator</h1>
+  <label for="dob">Enter your date of birth (YYYY-MM-DD):</label>
+  <input type="text" id="dob" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" required>
+  <br>
+  <button onclick="calculateTimeSinceBirth()">Calculate Time Since Birth</button>
+  <br>
+  <p id="result"></p>
+
+  <script>
+    function calculateTimeSinceBirth() {
+      const dobInput = document.getElementById('dob');
+      const resultElement = document.getElementById('result');
+
+      const dobParts = dobInput.value.split('-');
+      
+      if (dobParts.length !== 3) {
+        alert('Please enter a valid date of birth in the format YYYY-MM-DD');
+        return;
+      }
+
+      const dob = new Date(`${dobParts[0]}-${dobParts[1]}-${dobParts[2]}`);
+      const now = new Date();
+
+      if (isNaN(dob.getTime())) {
+        alert('Please enter a valid date of birth');
+        return;
+      }
+
+      const timeDifference = now - dob;
+
+      const years = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 365.25));
+      const weeks = Math.floor((timeDifference % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24 * 7));
+      const days = Math.floor((timeDifference % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+      resultElement.textContent = `Since your birth, it has been ${years} years, ${weeks} weeks, ${days} days, and ${hours} hours.`;
+    }
+  </script>
+</body>
+</html>
